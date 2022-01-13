@@ -1,0 +1,3463 @@
+sensor_nodes: DBW
+sensor_nodes: CAMERA
+sensor_nodes: BUMPER_RADAR
+sensor_nodes: REAR_RADARS
+sensor_nodes: UBLOX
+
+drive_nodes: OBSTACLE
+drive_nodes: LANE
+drive_nodes: PLANNING
+drive_nodes: PREDICTION
+drive_nodes: CONTROL
+drive_nodes: LOCALIZATION
+
+
+calibration_items {
+    sensor: STEREO
+    environment_state: RADAR_STEREO_FUSION_QUALITY
+}
+
+calibration_items {
+    sensor: STEREO
+    environment_state: SENSOR_CAMERA_LANE_NOT_ALIGNED_IN_IMU
+}
+
+status_report_topics {
+    topic_name: "/bumper_radar/status_report"
+    window_size: 10
+    plus_node_type: BUMPER_RADAR
+}
+
+status_report_topics {
+    topic_name: "/rear_radars/status_report"
+    window_size: 10
+    plus_node_type: REAR_RADARS
+}
+
+status_report_topics {
+    topic_name: "/gmsl_cameras/status_report"
+    window_size: 10
+    plus_node_type: CAMERA
+}
+
+status_report_topics {
+    topic_name: "/lane/status_report"
+    window_size: 10
+    plus_node_type: LANE
+}
+
+status_report_topics {
+    topic_name: "/planning/status_report"
+    window_size: 10
+    plus_node_type: PLANNING
+}
+
+status_report_topics {
+    topic_name: "/prediction/status_report"
+    window_size: 10
+    plus_node_type: PREDICTION
+}
+
+status_report_topics {
+    topic_name: "/control/status_report"
+    window_size: 20
+    plus_node_type: CONTROL
+}
+
+status_report_topics {
+    topic_name: "/vehicle/status_report"
+    window_size: 10
+    max_acceptable_delay: 0.5 # second
+    plus_node_type: DBW
+}
+
+status_report_topics {
+    topic_name: "/localization/status_report"
+    window_size: 20
+    plus_node_type: LOCALIZATION
+}
+
+status_report_topics {
+    topic_name: "/obstacle/status_report"
+    window_size: 10
+    max_acceptable_delay: 2 # second
+    plus_node_type: OBSTACLE
+}
+
+status_report_topics {
+    topic_name: "/ublox/status_report"
+    window_size: 10
+    plus_node_type: UBLOX
+}
+
+acc_module {
+  common_inspection {
+    # front left camera
+    system_states: CAMERA_FL_INIT_ERROR
+    system_states: CAMERA_FL_CONFIG_ERROR
+    system_states: CAMERA_FL_START_CAPTURE_ERROR
+    system_states: CAMERA_FL_STOP_CAPTURE_ERROR
+    system_states: CAMERA_FL_READ_FRAME_ERROR
+    system_states: CAMERA_FL_LINK_ERROR
+
+    # front right camera
+    system_states: CAMERA_FR_INIT_ERROR
+    system_states: CAMERA_FR_CONFIG_ERROR
+    system_states: CAMERA_FR_START_CAPTURE_ERROR
+    system_states: CAMERA_FR_STOP_CAPTURE_ERROR
+    system_states: CAMERA_FR_READ_FRAME_ERROR
+    system_states: CAMERA_FR_LINK_ERROR
+    
+
+    system_states: CAMERA_FL_LOST
+    vehicle_state_expressions {
+      state_type: CAMERA_FL_QUALITY_IS_GOOD
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+
+    system_states: CAMERA_FR_LOST
+    vehicle_state_expressions {
+      state_type: CAMERA_FR_QUALITY_IS_GOOD
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+
+    # bumper radar
+    system_states: BUMPER_RADAR_INIT_ERROR
+    system_states: BUMPER_RADAR_CONNECTION_TIMEOUT
+    system_states: BUMPER_RADAR_PARSE_FAILURE
+    system_states: BUMPER_RADAR_NVMREAD_FAILURE
+    system_states: BUMPER_RADAR_NVMWRITE_FAILURE
+    system_states: BUMPER_RADAR_PERSISTENT_ERROR
+    system_states: BUMPER_RADAR_INTERFERENCE_DETECTED
+    system_states: BUMPER_RADAR_TEMPERATURE_ERROR
+    system_states: BUMPER_RADAR_TEMPORARY_ERROR
+    system_states: BUMPER_RADAR_VOLTAGE_ERROR
+    system_states: BUMPER_RADAR_OUTPUT_TYPE_CONFIG_ERROR
+    system_states: BUMPER_RADAR_SENSORID_CONFIG_ERROR
+    system_states: BUMPER_RADAR_FILTER_CONFIG_ERROR
+    system_states: BUMPER_RADAR_INPUT_TIME_OUT_ERROR
+
+    system_states: UBLOX_NTP_ERROR
+    system_states: UBLOX_SETUP_ERROR
+
+    # OBS errors
+    system_states: OBS_OCCU_GRID_PARAM_INVALID
+    system_states: OBS_CROP_INVALID
+    system_states: OBS_RADAR_BL_CONFIG_ERROR
+    system_states: OBS_RADAR_ONCOMING_TRAFFIC_DETECTOR_CONFIG_ERROR
+    system_states: OBS_CUDA_ERROR
+    system_states: OBS_SERIALIZATION_FAILED
+    system_states: FUSION_TRACKER_SERIALIZATION_FAILED
+    system_states: CUDA_STEREO_ERROR
+    system_states: OBS_FEED_IMAGE_ASYNC_FAILED
+    system_states: OBS_INIT_MAP_ERROR
+
+    # LANE errors
+    system_states: LANE_CLS_CHANNEL_SIZE_INVALID
+    system_states: LANE_CLS_SIZE_INVALID
+    system_states: LANE_CUDA_ERROR
+    system_states: LANE_NOT_UNIFIED_MODEL
+    system_states: LANE_GET_TRACKER_PARAM_FAILED
+    system_states: LANE_GET_DETECTOR_PARAM_FAILED
+    system_states: LANE_GET_PATH_PARAM_FAILED
+    system_states: LANE_GET_ODD_PARAM_FAILED
+    system_states: LANE_GET_CALIB_PARAM_FAILED
+    system_states: LANE_TRACKER_INIT_FAILED
+    system_states: LANE_DETECTED_SIZE_INVAILD
+    system_states: LANE_SERIALIZATION_FAILED
+    system_states: LANE_EGO_LANE_WIDTH_NOT_SET
+    system_states: LANE_PROB_MAP_DIMS_ERROR
+    system_states: LANE_EMBD_MAP_DIMS_ERROR
+    system_states: LANE_CENTER_CURVE_SIZE_ERROR
+    system_states: LANE_DETECTOR_CREATE_FAILED
+    system_states: LANE_ROAD_MODEL_UNKNOWN
+    system_states: LANE_MATCH_IMG_POINT_INVALID
+    system_states: LANE_INPUT_INDEX_INVALID
+    system_states: LANE_CLS_OUTPUT_INDEX_INVALID
+    system_states: LANE_INS_OUTPUT_INDEX_INVALID
+    system_states: LANE_CLS_MAP_SIZE_INVALID
+    system_states: LANE_CREATE_EXE_CONTEXT_FAILED
+    system_states: LANE_EGO_OUTPUT_INDEX_INVALID
+    system_states: LANE_EXIST_OUTPUT_INDEX_INVALID
+    system_states: LANE_EGO_OUTPUT_SIZE_INVALID
+    system_states: LANE_CONFIG_ERROR
+    system_states: LANE_NEAREST_TWO_PATH_POINTS_INVALID
+    system_states: LANE_RESULT_INVALID
+    system_states: LANE_INIT_MAP_ERROR
+
+    # Prediction errors
+    system_states: PREDICTION_INIT_CONFIG_ERROR
+    system_states: PREDICTION_INIT_MAP_ERROR
+    system_states: PREDICTION_BUILD_REGION_SCENARIO_EGO_TRAJECTORY_ERROR
+    system_states: PREDICTION_NO_LANE_DETECTION_ERROR
+    system_states: PREDICTION_FAILED_TO_PREDICT
+    system_states: PREDICTION_STALE_PERCEPTION_OBSTACLE_ERROR
+    system_states: PREDICTION_TOO_OLD_LANE_DETECTION_ERROR
+    system_states: PREDICTION_FAILED_TO_BUILD_REGION_MAP_FROM_DETECTION
+    system_states: PREDICTION_FAILED_TO_BUILD_AEB_FAKE_LANE
+    system_states: PREDICTION_OLD_EGO_LANE_WITH_LARGE_CURAVTURE_ERROR
+    system_states: PREDICTION_EGO_OUT_OF_EGO_LANE_ERROR
+    system_states: PREDICTION_RESULT_BAD
+    system_states: PREDICTION_RESULT_ERROR
+
+    # Planning errors
+    system_states: PLANNING_INIT_CONFIG_ERROR
+    system_states: PLANNING_INIT_MAP_ERROR
+    system_states: PLANNING_FAILED_TO_PLAN
+    system_states: PLANNING_FAILED_TO_PUB
+    system_states: PLANNING_FAILED_TO_SUB
+    system_states: PLANNING_FAILED_TO_SYNC_VEHICLE_STATUS
+    system_states: PLANNING_FAILED_TO_SYNC_IMU_COORDINATE_STATE
+    system_states: PLANNING_FAILED_TO_SYNC_EGO_TRAJECTORY
+    system_states: PLANNING_FAILED_TO_SYNC_PERCEPTION_OBSTACLE
+    system_states: PLANNING_FAILED_TO_SYNC_PREDICTION_OBSTACLE
+    system_states: PLANNING_FAILED_TO_SYNC_LANE
+    system_states: PLANNING_FAILED_TO_GET_VALID_FRAME_PTR
+    system_states: PLANNING_FAILED_TO_CHECK_MAP
+    system_states: PLANNING_FAILED_TO_GET_VALID_TIMESTAMP
+    system_states: PLANNING_FAILED_TO_GET_VALID_VEHICLE_STATUS
+    system_states: PLANNING_FAILED_FOR_UNKNOWN
+
+    # Control errors
+    system_states: CONTROL_INIT_SETUP_ERROR
+    system_states: CONTROL_CONTROLLER_REGISTRATION_ERROR
+    system_states: CONTROL_CONFIG_ERROR
+    system_states: CONTROL_NO_REPORT_ERROR
+    system_states: CONTROL_NO_COMMAND_ERROR
+    system_states: CONTROL_BRAKE_MODE_ERROR
+    system_states: CONTROL_TRAJECTORY_ERROR
+    system_states: CONTROL_VEHICLE_STATE_ERROR
+    system_states: CONTROL_POSE_MISSING_ERROR
+    system_states: CONTROL_POSE_EXPIRED_ERROR
+    system_states: CONTROL_IMU_MISSING_ERROR
+    system_states: CONTROL_IMU_EXPIRED_ERROR
+    system_states: CONTROL_STEER_MISSING_ERROR
+    system_states: CONTROL_STEER_EXPIRED_ERROR
+    system_states: CONTROL_THROTTLE_REPORT_MISSING_ERROR
+    system_states: CONTROL_THROTTLE_INFO_REPORT_MISSING_ERROR
+    system_states: CONTROL_GEAR_REPORT_MISSING_ERROR
+    system_states: CONTROL_TRAJECTORY_MISSING_ERROR
+    system_states: CONTROL_TRAJECTORY_EXPIRED_ERROR
+    system_states: CONTROL_INIT_MAP_ERROR
+    system_states: CONTROL_INPUT_ERROR
+    system_states: CONTROL_WATCHDOG_STATE_MISSING_ERROR
+    system_states: CONTROL_SAFE_TRAJECTORY_EXPIRED_ERROR
+    system_states: CONTROL_SAFE_TRAJECTORY_MISSING_ERROR
+
+    # localization errors
+    system_states: LOCALIZATION_INIT_MAP_ERROR
+
+    # DBW CAN_COMMUNICATION errors
+    system_states: DBW_FAIL_SEND_CAN_MSG
+    system_states: DBW_UDP_EXPIRED
+    system_states: DBW_NODE_LATENCY_HIGH
+    system_states: MCU_SHUTDOWN
+
+    system_states: CONTROL_CMD_MISSING
+    system_states: CONTROL_CMD_EXPIRED
+    system_states: CONTROL_CMD_DISABLED
+    system_states: WATCHDOG_EXPIRED
+    system_states: L4_WATCHDOG_BRAKE_COMMAND_TIMEOUT_ERR
+    system_states: L4_WATCHDOG_PARKING_REQUEST_ERR
+    system_states: L4_WATCHDOG_APP_WATCHDOG_STATUS_TIMEOUT_ERR
+    system_states: L4_WATCHDOG_VOLTAGE_ERR
+    system_states: L4_WATCHDOG_TEMPERATURE_ERR
+    system_states: L4_WATCHDOG_DCDC_BOTH_ERR
+
+    # CALIB errors
+    system_states: CALIB_IMU_TO_IMG_CONFIG_ERROR
+    system_states: CALIB_SERIALIZATION_FAILED
+    system_states: CALIB_GET_RADAR_FAILED
+    system_states: CALIB_GET_CAMERA_FAILED
+    system_states: CALIB_GET_STEREO_FAILED
+    system_states: CALIB_UTILS_MATRIX_INVALID
+    system_states: CALIB_CAMERA_LOAD_CONFIG_FAILED
+    system_states: CALIB_CAMERA_CONFIG_FIELD_MISSING
+    system_states: CALIB_CAMERA_CONFIG_FIELD_INVALID
+    system_states: CALIB_RADAR_LOAD_CONFIG_FAILED
+    system_states: CALIB_RADAR_CONFIG_FIELD_MISSING
+    system_states: CALIB_RADAR_CONFIG_FIELD_INVALID
+    system_states: CALIB_STEREO_CAMERA_LOAD_CONFIG_FAILED
+    system_states: CALIB_STEREO_CAMERA_CONFIG_FIELD_MISSING
+    system_states: CALIB_STEREO_CAMERA_CONFIG_FIELD_INVALID
+
+    system_states: IPC_SUB_CAMERA_FAILED
+    system_states: IPC_SUB_LANE_FAILED
+    system_states: IPC_SUB_STEREO_LEFT_FAILED
+    system_states: IPC_SUB_STEREO_RIGHT_FAILED
+    system_states: IPC_SUB_ODOM_FAILED
+    system_states: IPC_SUB_LOCALIZATION_FAILED
+    system_states: IPC_SUB_VEHICLE_MISC_FAILED
+    system_states: SENSOR_FRONT_OUT_OF_SYNC
+    system_states: FRONT_CAMERA_OUT_OF_SYNC
+    system_states: TF_SIGNAL_TRACKER_INIT_FAILED
+    system_states: CAMERA_FL_OUT_OF_SYNC
+    system_states: CAMERA_FR_OUT_OF_SYNC
+    system_states: RADAR_OUT_OF_SYNC
+    #system_states: RADAR_LIDAR_OUT_OF_SYNC
+
+
+    # CALIB errors:  Sensor Calibration Extrinsic Parameter errors
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_CAMERA_FL_OFF
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_CAMERA_FR_OFF
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_CAMERA_STEREO_OFF
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_RADAR_F_OFF
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_IMU_OFF
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_LANE_CAMERA_OFF
+  }
+
+  self_inspection {
+    use_common: true
+
+    # Calibration states
+    unpredictable_environment_states {
+      state_type: RADAR_STEREO_FUSION_QUALITY
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+    unpredictable_environment_states {
+      state_type: SENSOR_CAMERA_LANE_NOT_ALIGNED_IN_IMU
+      op: EQUAL
+      rvalue: 0
+    }
+  }
+
+  # acc_module
+  enter_standby_inspection {
+    use_common: true
+  
+    unpredictable_environment_states {
+      state_type: UBLOX_POSITION_STATUS
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: EGO_SPEED
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 15 # 15km/h
+    }
+    vehicle_state_expressions {
+      state_type: EGO_SPEED
+      op: LESS_THAN_OR_EQUAL
+      rvalue: 101 # 101km/h
+    }
+    unpredictable_environment_states {
+      state_type: BRAKE_CMD_IN_SHADOW_MODE
+      op: LESS_THAN_OR_EQUAL
+      rvalue: 0.25
+    }
+    unpredictable_environment_states {
+      state_type: EGO_LEAD_TTC
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 4.4         # second
+    }
+    unpredictable_environment_states {
+      state_type: EGO_LEAD_DISTANCE
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 10         # meter
+    }
+    unpredictable_environment_states {
+      state_type: PLANNING_TYPE
+      op: EQUAL
+      rvalue: 0
+    }
+    unpredictable_environment_states {
+      state_type: SENSOR_CAMERA_LANE_NOT_ALIGNED_IN_IMU
+      op: EQUAL
+      rvalue: 0
+    }
+
+    # A block for all vehicle_state_expressions
+    #vehicle_state_expressions {
+    #  state_type: VEHICLE_THROTTLE_TORQUE_LIMIT
+    #  op: EQUAL
+    #  rvalue: 0
+    #}
+    vehicle_state_expressions {
+      state_type: VEHICLE_DOOR_CLOSED
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: VEHICLE_ENGINE_ON
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: LOW_SPEED_SWITCH_ON
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: GAS_PEDAL_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: BRAKE_PEDAL_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: LONGITUDINAL_ACCELERATE_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: SPEED_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: GEAR_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: ENGINE_SPEED_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: WEIGHT_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: PT_CAN_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: CHASSIS_CAN1_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: CHASSIS_CAN2_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: COMFORT_CAN_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EMS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: VCU_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: VCU_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: ECAS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EBS_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EBS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: TCU_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: ERC_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EPB_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EPB_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: ACC_BUTTON_ERROR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: CLUSTER_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: IBOX_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_INSPVA_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_INSPVAX_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_IMU_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_DBW_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: UBLOX_IMU_STATUS
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: UBLOX_CALIB_STATUS
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+  }
+
+
+  # acc_module
+  maintain_standby_inspection {
+    use_common: true
+  
+    unpredictable_environment_states {
+      state_type: UBLOX_POSITION_STATUS
+      op: EQUAL
+      rvalue: 1
+    }
+    unpredictable_environment_states {
+      state_type: SENSOR_CAMERA_LANE_NOT_ALIGNED_IN_IMU
+      op: EQUAL
+      rvalue: 0
+    }
+
+    # A block for all vehicle_state_expressions
+    #vehicle_state_expressions {
+    #  state_type: VEHICLE_THROTTLE_TORQUE_LIMIT
+    #  op: EQUAL
+    #  rvalue: 0
+    #}
+    vehicle_state_expressions {
+      state_type: VEHICLE_DOOR_CLOSED
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: VEHICLE_ENGINE_ON
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: LOW_SPEED_SWITCH_ON
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: GAS_PEDAL_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: BRAKE_PEDAL_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: LONGITUDINAL_ACCELERATE_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: SPEED_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: GEAR_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: ENGINE_SPEED_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: WEIGHT_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: PT_CAN_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: CHASSIS_CAN1_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: CHASSIS_CAN2_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: COMFORT_CAN_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EMS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: VCU_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: VCU_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: ECAS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EBS_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EBS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: TCU_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: ERC_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EPB_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EPB_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: ACC_BUTTON_ERROR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: CLUSTER_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: IBOX_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_INSPVA_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_INSPVAX_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_IMU_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_DBW_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: UBLOX_IMU_STATUS
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: UBLOX_CALIB_STATUS
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+  }
+
+  # acc_module
+  enter_active_inspection {
+    use_common: true
+  
+    unpredictable_environment_states {
+      state_type: UBLOX_POSITION_STATUS
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: EGO_SPEED
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 15 # 15km/h
+    }
+    vehicle_state_expressions {
+      state_type: EGO_SPEED
+      op: LESS_THAN_OR_EQUAL
+      rvalue: 101 # 101km/h
+    }
+    unpredictable_environment_states {
+      state_type: BRAKE_CMD_IN_SHADOW_MODE
+      op: LESS_THAN_OR_EQUAL
+      rvalue: 0.25
+    }
+    unpredictable_environment_states {
+      state_type: EGO_LEAD_TTC
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 4.4         # second
+    }
+    unpredictable_environment_states {
+      state_type: EGO_LEAD_DISTANCE
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 10         # meter
+    }
+    unpredictable_environment_states {
+      state_type: PLANNING_TYPE
+      op: EQUAL
+      rvalue: 0
+    }
+    unpredictable_environment_states {
+      state_type: SENSOR_CAMERA_LANE_NOT_ALIGNED_IN_IMU
+      op: EQUAL
+      rvalue: 0
+    }
+
+    # A block for all vehicle_state_expressions
+    #vehicle_state_expressions {
+    #  state_type: VEHICLE_THROTTLE_TORQUE_LIMIT
+    #  op: EQUAL
+    #  rvalue: 0
+    #}
+    vehicle_state_expressions {
+      state_type: VEHICLE_DOOR_CLOSED
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: VEHICLE_ENGINE_ON
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: LOW_SPEED_SWITCH_ON
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: GAS_PEDAL_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: BRAKE_PEDAL_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: LONGITUDINAL_ACCELERATE_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: SPEED_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: GEAR_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: ENGINE_SPEED_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: WEIGHT_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: PT_CAN_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: CHASSIS_CAN1_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: CHASSIS_CAN2_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: COMFORT_CAN_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EMS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: VCU_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: VCU_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: ECAS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EBS_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EBS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: TCU_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: ERC_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EPB_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EPB_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: ACC_BUTTON_ERROR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: CLUSTER_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: IBOX_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_INSPVA_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_INSPVAX_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_IMU_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_DBW_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: UBLOX_IMU_STATUS
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: UBLOX_CALIB_STATUS
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+  }
+
+  # acc_module
+  maintain_active_inspection {
+    use_common: true
+
+    unpredictable_environment_states {
+      state_type: UBLOX_POSITION_STATUS
+      op: EQUAL
+      rvalue: 1
+    }
+    unpredictable_environment_states {
+      state_type: SENSOR_CAMERA_LANE_NOT_ALIGNED_IN_IMU
+      op: EQUAL
+      rvalue: 0
+    }
+    # A block for all vehicle_state_expressions
+    #vehicle_state_expressions {
+    #  state_type: VEHICLE_THROTTLE_TORQUE_LIMIT
+    #  op: EQUAL
+    #  rvalue: 0
+    #}
+    vehicle_state_expressions {
+      state_type: VEHICLE_DOOR_CLOSED
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: VEHICLE_ENGINE_ON
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: LOW_SPEED_SWITCH_ON
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: GAS_PEDAL_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: BRAKE_PEDAL_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: LONGITUDINAL_ACCELERATE_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: SPEED_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: GEAR_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: ENGINE_SPEED_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: PT_CAN_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: CHASSIS_CAN1_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: CHASSIS_CAN2_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: COMFORT_CAN_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: WEIGHT_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: EMS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: VCU_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: VCU_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: ECAS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EBS_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EBS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: TCU_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: ERC_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EPB_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EPB_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: ACC_BUTTON_ERROR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: CLUSTER_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: IBOX_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_INSPVA_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_INSPVAX_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_IMU_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_DBW_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: UBLOX_IMU_STATUS
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: UBLOX_CALIB_STATUS
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+  }
+}
+
+super_pilot_module {
+  common_inspection {
+    # front left camera
+    system_states: CAMERA_FL_INIT_ERROR
+    system_states: CAMERA_FL_CONFIG_ERROR
+    system_states: CAMERA_FL_START_CAPTURE_ERROR
+    system_states: CAMERA_FL_STOP_CAPTURE_ERROR
+    system_states: CAMERA_FL_READ_FRAME_ERROR
+    system_states: CAMERA_FL_LINK_ERROR
+
+    # front right camera
+    system_states: CAMERA_FR_INIT_ERROR
+    system_states: CAMERA_FR_CONFIG_ERROR
+    system_states: CAMERA_FR_START_CAPTURE_ERROR
+    system_states: CAMERA_FR_STOP_CAPTURE_ERROR
+    system_states: CAMERA_FR_READ_FRAME_ERROR
+    system_states: CAMERA_FR_LINK_ERROR
+
+    # perception
+    system_states: CAMERA_FL_LOST
+    vehicle_state_expressions {
+      state_type: CAMERA_FL_QUALITY_IS_GOOD
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+
+    system_states: CAMERA_FR_LOST
+    vehicle_state_expressions {
+      state_type: CAMERA_FR_QUALITY_IS_GOOD
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+
+    # bumper radar
+    system_states: BUMPER_RADAR_INIT_ERROR
+    system_states: BUMPER_RADAR_CONNECTION_TIMEOUT
+    system_states: BUMPER_RADAR_PARSE_FAILURE
+    system_states: BUMPER_RADAR_NVMREAD_FAILURE
+    system_states: BUMPER_RADAR_NVMWRITE_FAILURE
+    system_states: BUMPER_RADAR_PERSISTENT_ERROR
+    system_states: BUMPER_RADAR_INTERFERENCE_DETECTED
+    system_states: BUMPER_RADAR_TEMPERATURE_ERROR
+    system_states: BUMPER_RADAR_TEMPORARY_ERROR
+    system_states: BUMPER_RADAR_VOLTAGE_ERROR
+    system_states: BUMPER_RADAR_OUTPUT_TYPE_CONFIG_ERROR
+    system_states: BUMPER_RADAR_SENSORID_CONFIG_ERROR
+    system_states: BUMPER_RADAR_FILTER_CONFIG_ERROR
+    system_states: BUMPER_RADAR_INPUT_TIME_OUT_ERROR
+
+    system_states: UBLOX_NTP_ERROR
+    system_states: UBLOX_SETUP_ERROR
+
+    # OBS errors
+    system_states: OBS_OCCU_GRID_PARAM_INVALID
+    system_states: OBS_CROP_INVALID
+    system_states: OBS_RADAR_BL_CONFIG_ERROR
+    system_states: OBS_RADAR_ONCOMING_TRAFFIC_DETECTOR_CONFIG_ERROR
+    system_states: OBS_CUDA_ERROR
+    system_states: OBS_SERIALIZATION_FAILED
+    system_states: FUSION_TRACKER_SERIALIZATION_FAILED
+    system_states: CUDA_STEREO_ERROR
+    system_states: OBS_FEED_IMAGE_ASYNC_FAILED
+    system_states: OBS_INIT_MAP_ERROR
+
+    # LANE errors
+    system_states: LANE_CLS_CHANNEL_SIZE_INVALID
+    system_states: LANE_CLS_SIZE_INVALID
+    system_states: LANE_CUDA_ERROR
+    system_states: LANE_NOT_UNIFIED_MODEL
+    system_states: LANE_GET_TRACKER_PARAM_FAILED
+    system_states: LANE_GET_DETECTOR_PARAM_FAILED
+    system_states: LANE_GET_PATH_PARAM_FAILED
+    system_states: LANE_GET_ODD_PARAM_FAILED
+    system_states: LANE_GET_CALIB_PARAM_FAILED
+    system_states: LANE_TRACKER_INIT_FAILED
+    system_states: LANE_DETECTED_SIZE_INVAILD
+    system_states: LANE_SERIALIZATION_FAILED
+    system_states: LANE_EGO_LANE_WIDTH_NOT_SET
+    system_states: LANE_PROB_MAP_DIMS_ERROR
+    system_states: LANE_EMBD_MAP_DIMS_ERROR
+    system_states: LANE_CENTER_CURVE_SIZE_ERROR
+    system_states: LANE_DETECTOR_CREATE_FAILED
+    system_states: LANE_ROAD_MODEL_UNKNOWN
+    system_states: LANE_MATCH_IMG_POINT_INVALID
+    system_states: LANE_INPUT_INDEX_INVALID
+    system_states: LANE_CLS_OUTPUT_INDEX_INVALID
+    system_states: LANE_INS_OUTPUT_INDEX_INVALID
+    system_states: LANE_CLS_MAP_SIZE_INVALID
+    system_states: LANE_CREATE_EXE_CONTEXT_FAILED
+    system_states: LANE_EGO_OUTPUT_INDEX_INVALID
+    system_states: LANE_EXIST_OUTPUT_INDEX_INVALID
+    system_states: LANE_EGO_OUTPUT_SIZE_INVALID
+    system_states: LANE_CONFIG_ERROR
+    system_states: LANE_NEAREST_TWO_PATH_POINTS_INVALID
+    system_states: LANE_RESULT_INVALID
+    system_states: LANE_INIT_MAP_ERROR
+
+    # Prediction errors
+    system_states: PREDICTION_INIT_CONFIG_ERROR
+    system_states: PREDICTION_INIT_MAP_ERROR
+    system_states: PREDICTION_BUILD_REGION_SCENARIO_EGO_TRAJECTORY_ERROR
+    system_states: PREDICTION_NO_LANE_DETECTION_ERROR
+    system_states: PREDICTION_FAILED_TO_PREDICT
+    system_states: PREDICTION_STALE_PERCEPTION_OBSTACLE_ERROR
+    system_states: PREDICTION_TOO_OLD_LANE_DETECTION_ERROR
+    system_states: PREDICTION_FAILED_TO_BUILD_REGION_MAP_FROM_DETECTION
+    system_states: PREDICTION_FAILED_TO_BUILD_AEB_FAKE_LANE
+    system_states: PREDICTION_OLD_EGO_LANE_WITH_LARGE_CURAVTURE_ERROR
+    system_states: PREDICTION_EGO_OUT_OF_EGO_LANE_ERROR
+    system_states: PREDICTION_RESULT_BAD
+    system_states: PREDICTION_RESULT_ERROR
+
+    # Planning errors
+    system_states: PLANNING_INIT_CONFIG_ERROR
+    system_states: PLANNING_INIT_MAP_ERROR
+    system_states: PLANNING_FAILED_TO_PLAN
+    system_states: PLANNING_FAILED_TO_PUB
+    system_states: PLANNING_FAILED_TO_SUB
+    system_states: PLANNING_FAILED_TO_SYNC_VEHICLE_STATUS
+    system_states: PLANNING_FAILED_TO_SYNC_IMU_COORDINATE_STATE
+    system_states: PLANNING_FAILED_TO_SYNC_EGO_TRAJECTORY
+    system_states: PLANNING_FAILED_TO_SYNC_PERCEPTION_OBSTACLE
+    system_states: PLANNING_FAILED_TO_SYNC_PREDICTION_OBSTACLE
+    system_states: PLANNING_FAILED_TO_SYNC_LANE
+    system_states: PLANNING_FAILED_TO_GET_VALID_FRAME_PTR
+    system_states: PLANNING_FAILED_TO_CHECK_MAP
+    system_states: PLANNING_FAILED_TO_GET_VALID_TIMESTAMP
+    system_states: PLANNING_FAILED_TO_GET_VALID_VEHICLE_STATUS
+    system_states: PLANNING_FAILED_FOR_UNKNOWN
+
+    # Control errors
+    system_states: CONTROL_INIT_SETUP_ERROR
+    system_states: CONTROL_CONTROLLER_REGISTRATION_ERROR
+    system_states: CONTROL_CONFIG_ERROR
+    system_states: CONTROL_NO_REPORT_ERROR
+    system_states: CONTROL_NO_COMMAND_ERROR
+    system_states: CONTROL_BRAKE_MODE_ERROR
+    system_states: CONTROL_TRAJECTORY_ERROR
+    system_states: CONTROL_VEHICLE_STATE_ERROR
+    system_states: CONTROL_POSE_MISSING_ERROR
+    system_states: CONTROL_POSE_EXPIRED_ERROR
+    system_states: CONTROL_IMU_MISSING_ERROR
+    system_states: CONTROL_IMU_EXPIRED_ERROR
+    system_states: CONTROL_STEER_MISSING_ERROR
+    system_states: CONTROL_STEER_EXPIRED_ERROR
+    system_states: CONTROL_THROTTLE_REPORT_MISSING_ERROR
+    system_states: CONTROL_THROTTLE_INFO_REPORT_MISSING_ERROR
+    system_states: CONTROL_GEAR_REPORT_MISSING_ERROR
+    system_states: CONTROL_TRAJECTORY_MISSING_ERROR
+    system_states: CONTROL_TRAJECTORY_EXPIRED_ERROR
+    system_states: CONTROL_INIT_MAP_ERROR
+    system_states: CONTROL_INPUT_ERROR
+    system_states: CONTROL_WATCHDOG_STATE_MISSING_ERROR
+    system_states: CONTROL_SAFE_TRAJECTORY_EXPIRED_ERROR
+    system_states: CONTROL_SAFE_TRAJECTORY_MISSING_ERROR
+
+    # localization errors
+    system_states: LOCALIZATION_INIT_MAP_ERROR
+
+    # DBW CAN_COMMUNICATION errors
+    system_states: DBW_FAIL_SEND_CAN_MSG
+    system_states: DBW_UDP_EXPIRED
+    system_states: DBW_NODE_LATENCY_HIGH
+    system_states: MCU_SHUTDOWN
+
+    system_states: CONTROL_CMD_MISSING
+    system_states: CONTROL_CMD_EXPIRED
+    system_states: CONTROL_CMD_DISABLED
+    system_states: WATCHDOG_EXPIRED
+    system_states: L4_WATCHDOG_STEERING_COMMAND_TIMEOUT_ERR
+    system_states: L4_WATCHDOG_BRAKE_COMMAND_TIMEOUT_ERR
+    system_states: L4_WATCHDOG_PARKING_REQUEST_ERR
+    system_states: L4_WATCHDOG_APP_WATCHDOG_STATUS_TIMEOUT_ERR
+    system_states: L4_WATCHDOG_VOLTAGE_ERR
+    system_states: L4_WATCHDOG_TEMPERATURE_ERR
+    system_states: L4_WATCHDOG_DCDC_BOTH_ERR
+
+    # CALIB errors
+    system_states: CALIB_IMU_TO_IMG_CONFIG_ERROR
+    system_states: CALIB_SERIALIZATION_FAILED
+    system_states: CALIB_GET_RADAR_FAILED
+    system_states: CALIB_GET_CAMERA_FAILED
+    system_states: CALIB_GET_CAMERA_REAR_LEFT_FAILED
+    system_states: CALIB_GET_CAMERA_REAR_RIGHT_FAILED
+    system_states: CALIB_GET_STEREO_FAILED
+    system_states: CALIB_UTILS_MATRIX_INVALID
+    system_states: CALIB_CAMERA_LOAD_CONFIG_FAILED
+    system_states: CALIB_CAMERA_CONFIG_FIELD_MISSING
+    system_states: CALIB_CAMERA_CONFIG_FIELD_INVALID
+    system_states: CALIB_RADAR_LOAD_CONFIG_FAILED
+    system_states: CALIB_RADAR_CONFIG_FIELD_MISSING
+    system_states: CALIB_RADAR_CONFIG_FIELD_INVALID
+    system_states: CALIB_STEREO_CAMERA_LOAD_CONFIG_FAILED
+    system_states: CALIB_STEREO_CAMERA_CONFIG_FIELD_MISSING
+    system_states: CALIB_STEREO_CAMERA_CONFIG_FIELD_INVALID
+
+    system_states: IPC_SUB_CAMERA_FAILED
+    system_states: IPC_SUB_LANE_FAILED
+    system_states: IPC_SUB_STEREO_LEFT_FAILED
+    system_states: IPC_SUB_STEREO_RIGHT_FAILED
+    system_states: IPC_SUB_ODOM_FAILED
+    system_states: IPC_SUB_LOCALIZATION_FAILED
+    system_states: IPC_SUB_VEHICLE_MISC_FAILED
+    system_states: SENSOR_FRONT_OUT_OF_SYNC
+    system_states: FRONT_CAMERA_OUT_OF_SYNC
+    system_states: TF_SIGNAL_TRACKER_INIT_FAILED
+    system_states: CAMERA_FL_OUT_OF_SYNC
+    system_states: CAMERA_FR_OUT_OF_SYNC
+    system_states: RADAR_OUT_OF_SYNC
+    #system_states: RADAR_LIDAR_OUT_OF_SYNC
+
+
+    # CALIB errors:  Sensor Calibration Extrinsic Parameter errors
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_CAMERA_FL_OFF
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_CAMERA_FR_OFF
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_CAMERA_STEREO_OFF
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_RADAR_F_OFF
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_IMU_OFF
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_LANE_CAMERA_OFF
+  }
+
+  self_inspection {
+    use_common: true
+
+    # Calibration states
+    unpredictable_environment_states {
+      state_type: RADAR_STEREO_FUSION_QUALITY
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+    unpredictable_environment_states {
+      state_type: SENSOR_CAMERA_LANE_NOT_ALIGNED_IN_IMU
+      op: EQUAL
+      rvalue: 0
+    }
+  }
+
+  # super_pilot_module
+  enter_standby_inspection {
+    use_common: true
+   
+    unpredictable_environment_states {
+      state_type: UBLOX_POSITION_STATUS
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: EGO_SPEED
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 15 # 15km/h
+    }
+    vehicle_state_expressions {
+      state_type: EGO_SPEED
+      op: LESS_THAN_OR_EQUAL
+      rvalue: 101 # 101km/h
+    }
+    unpredictable_environment_states {
+      state_type: EGO_LANE_READY_TO_ENGAGE
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: VEHICLE_WEIGHT
+      op: LESS_THAN_OR_EQUAL
+      rvalue: 55000       # kg
+    }
+    vehicle_state_expressions {
+      state_type: ROLL_ZERO_OFFSET_ESTIMATION_READY
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: STEER_ZERO_OFFSET_ESTIMATION_READY
+      op: EQUAL
+      rvalue: 1
+    }
+    unpredictable_environment_states {
+      state_type: BRAKE_CMD_IN_SHADOW_MODE
+      op: LESS_THAN_OR_EQUAL
+      rvalue: 0.25
+    }
+    unpredictable_environment_states {
+      state_type: VEHICLE_STEERING_CMD_DIFF_OVER_REPORT
+      op: LESS_THAN_OR_EQUAL
+      rvalue: 30.0         # deg
+    }
+    vehicle_state_expressions {
+      state_type: TURN_SIGNAL_ON_IN_SHADOW_MODE
+      op: NOT_EQUAL
+      rvalue: 1
+    }
+    unpredictable_environment_states {
+      state_type: EGO_LEAD_TTC
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 4.4         # second
+    }
+    unpredictable_environment_states {
+      state_type: EGO_LEAD_DISTANCE
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 10         # meter
+    }
+    unpredictable_environment_states {
+      state_type: PLANNING_TYPE
+      op: EQUAL
+      rvalue: 0
+    }
+    unpredictable_environment_states {
+      state_type: SENSOR_CAMERA_LANE_NOT_ALIGNED_IN_IMU
+      op: EQUAL
+      rvalue: 0
+    }
+    unpredictable_environment_states {
+      state_type: RADAR_STEREO_FUSION_QUALITY
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+    unpredictable_environment_states {
+      state_type: PREDICTION_NO_UP_TO_DATE_LANE_DETECTION
+      op: EQUAL
+      rvalue: -1
+    }
+
+    # A block for all vehicle_state_expressions
+    #vehicle_state_expressions {
+    #  state_type: VEHICLE_THROTTLE_TORQUE_LIMIT
+    #  op: EQUAL
+    #  rvalue: 0
+    #}
+    vehicle_state_expressions {
+      state_type: VEHICLE_DOOR_CLOSED
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: VEHICLE_ENGINE_ON
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: LOW_SPEED_SWITCH_ON
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: GAS_PEDAL_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: BRAKE_PEDAL_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: LONGITUDINAL_ACCELERATE_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: SPEED_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: STEERING_WHEEL_ANGLE_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: GEAR_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: ENGINE_SPEED_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: WEIGHT_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: PT_CAN_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: CHASSIS_CAN1_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: CHASSIS_CAN2_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: COMFORT_CAN_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EMS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: VCU_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: VCU_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: ECAS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EBS_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EBS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EPS_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EPS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: TCU_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: ERC_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EPB_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EPB_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: IBOX_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: HOD_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: HOD_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: DRIVER_MONITOR_STATUS
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: DMS_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: DMS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: SUPERPILOT_BUTTON_ERROR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: ACC_BUTTON_ERROR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: CLUSTER_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_INSPVA_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_INSPVAX_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_IMU_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_DBW_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: UBLOX_IMU_STATUS
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: UBLOX_CALIB_STATUS
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+  }
+
+  # super_pilot_module
+  maintain_standby_inspection {
+    use_common: true
+   
+    unpredictable_environment_states {
+      state_type: UBLOX_POSITION_STATUS
+      op: EQUAL
+      rvalue: 1
+    }
+    unpredictable_environment_states {
+      state_type: EGO_LANE_READY_TO_ENGAGE
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: VEHICLE_WEIGHT
+      op: LESS_THAN_OR_EQUAL
+      rvalue: 55000       # kg
+    }
+    unpredictable_environment_states {
+      state_type: SENSOR_CAMERA_LANE_NOT_ALIGNED_IN_IMU
+      op: EQUAL
+      rvalue: 0
+    }
+    unpredictable_environment_states {
+      state_type: RADAR_STEREO_FUSION_QUALITY
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+    # A block for all vehicle_state_expressions
+    #vehicle_state_expressions {
+    #  state_type: VEHICLE_THROTTLE_TORQUE_LIMIT
+    #  op: EQUAL
+    #  rvalue: 0
+    #}
+    vehicle_state_expressions {
+      state_type: VEHICLE_DOOR_CLOSED
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: VEHICLE_ENGINE_ON
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: LOW_SPEED_SWITCH_ON
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: GAS_PEDAL_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: BRAKE_PEDAL_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: LONGITUDINAL_ACCELERATE_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: SPEED_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: STEERING_WHEEL_ANGLE_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: GEAR_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: ENGINE_SPEED_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: WEIGHT_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: PT_CAN_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: CHASSIS_CAN1_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: CHASSIS_CAN2_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: COMFORT_CAN_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EMS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: VCU_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: VCU_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: ECAS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EBS_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EBS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EPS_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: HOD_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: HOD_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: DRIVER_MONITOR_STATUS
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: DMS_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: DMS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EPS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: TCU_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: ERC_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EPB_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EPB_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: IBOX_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: SUPERPILOT_BUTTON_ERROR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: ACC_BUTTON_ERROR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: CLUSTER_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_INSPVA_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_INSPVAX_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_IMU_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_DBW_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: UBLOX_IMU_STATUS
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: UBLOX_CALIB_STATUS
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+  }
+
+  # super_pilot_module
+  enter_active_inspection {
+    use_common: true
+
+    unpredictable_environment_states {
+      state_type: UBLOX_POSITION_STATUS
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: EGO_SPEED
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 15 # 15km/h
+    }
+    vehicle_state_expressions {
+      state_type: EGO_SPEED
+      op: LESS_THAN_OR_EQUAL
+      rvalue: 101 # 101km/h
+    }
+    unpredictable_environment_states {
+      state_type: EGO_LANE_READY_TO_ENGAGE
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: VEHICLE_WEIGHT
+      op: LESS_THAN_OR_EQUAL
+      rvalue: 55000       # kg
+    }
+    vehicle_state_expressions {
+      state_type: ROLL_ZERO_OFFSET_ESTIMATION_READY
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: STEER_ZERO_OFFSET_ESTIMATION_READY
+      op: EQUAL
+      rvalue: 1
+    }
+    unpredictable_environment_states {
+      state_type: BRAKE_CMD_IN_SHADOW_MODE
+      op: LESS_THAN_OR_EQUAL
+      rvalue: 0.25
+    }
+    unpredictable_environment_states {
+      state_type: VEHICLE_STEERING_CMD_DIFF_OVER_REPORT
+      op: LESS_THAN_OR_EQUAL
+      rvalue: 30.0         # deg
+    }
+    vehicle_state_expressions {
+      state_type: TURN_SIGNAL_ON_IN_SHADOW_MODE
+      op: NOT_EQUAL
+      rvalue: 1
+    }
+    unpredictable_environment_states {
+      state_type: EGO_LEAD_TTC
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 4.4         # second
+    }
+    unpredictable_environment_states {
+      state_type: EGO_LEAD_DISTANCE
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 10         # meter
+    }
+    unpredictable_environment_states {
+      state_type: PLANNING_TYPE
+      op: EQUAL
+      rvalue: 0
+    }
+    unpredictable_environment_states {
+      state_type: SENSOR_CAMERA_LANE_NOT_ALIGNED_IN_IMU
+      op: EQUAL
+      rvalue: 0
+    }
+    unpredictable_environment_states {
+      state_type: RADAR_STEREO_FUSION_QUALITY
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+    unpredictable_environment_states {
+      state_type: PREDICTION_NO_UP_TO_DATE_LANE_DETECTION
+      op: EQUAL
+      rvalue: -1
+    }
+
+
+    # A block for all vehicle_state_expressions
+    #vehicle_state_expressions {
+    #  state_type: VEHICLE_THROTTLE_TORQUE_LIMIT
+    #  op: EQUAL
+    #  rvalue: 0
+    #}
+    vehicle_state_expressions {
+      state_type: VEHICLE_DOOR_CLOSED
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: VEHICLE_ENGINE_ON
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: LOW_SPEED_SWITCH_ON
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: GAS_PEDAL_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: BRAKE_PEDAL_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: LONGITUDINAL_ACCELERATE_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: SPEED_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: STEERING_WHEEL_ANGLE_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: GEAR_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: ENGINE_SPEED_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: WEIGHT_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: PT_CAN_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: CHASSIS_CAN1_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: CHASSIS_CAN2_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: COMFORT_CAN_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EMS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: VCU_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: VCU_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: ECAS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EBS_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EBS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EPS_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: HOD_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: HOD_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: DRIVER_MONITOR_STATUS
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: DMS_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: DMS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EPS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: TCU_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: ERC_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EPB_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EPB_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: IBOX_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: SUPERPILOT_BUTTON_ERROR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: ACC_BUTTON_ERROR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: CLUSTER_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_INSPVA_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_INSPVAX_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_IMU_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_DBW_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: UBLOX_IMU_STATUS
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: UBLOX_CALIB_STATUS
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+  }
+
+  # super_pilot_module
+  maintain_active_inspection {
+    use_common: true
+    predictable_environment_states {
+      state_type: TOLL_BOOTH_AHEAD
+      op: EQUAL
+      rvalue: 0
+    }
+
+    recoverable_states {
+      system_states: CAMERA_FR_OUT_OF_SYNC
+      system_states: CAMERA_FL_OUT_OF_SYNC
+
+      system_states: RADAR_OUT_OF_SYNC
+
+      system_states: FRONT_CAMERA_OUT_OF_SYNC
+
+      system_states: SENSOR_FRONT_OUT_OF_SYNC
+
+      system_states: PLANNING_FAILED_TO_SYNC_LANE
+
+      vehicle_states: HOD_ERR
+
+      vehicle_states: DRIVER_MONITOR_STATUS
+
+      vehicle_states: CAMERA_FL_QUALITY_IS_GOOD
+      vehicle_states: CAMERA_FR_QUALITY_IS_GOOD
+    }
+
+    unpredictable_environment_states {
+      state_type: UBLOX_POSITION_STATUS
+      op: EQUAL
+      rvalue: 1
+    }
+    unpredictable_environment_states {
+      state_type: NEAR_SERVICE_DISTRICT
+      op: EQUAL
+      rvalue: 0.0
+    }
+    unpredictable_environment_states {
+      state_type: EGO_LANE_READY_TO_KEEP
+      op: EQUAL
+      rvalue: 1.0
+    }
+    vehicle_state_expressions {
+      state_type: VEHICLE_WEIGHT
+      op: LESS_THAN_OR_EQUAL
+      rvalue: 55000       # kg
+    }
+    unpredictable_environment_states {
+      state_type: SENSOR_CAMERA_LANE_NOT_ALIGNED_IN_IMU
+      op: EQUAL
+      rvalue: 0
+    }
+    unpredictable_environment_states {
+      state_type: RADAR_STEREO_FUSION_QUALITY
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+    unpredictable_environment_states {
+      state_type: PREDICTION_NO_UP_TO_DATE_LANE_DETECTION
+      op: EQUAL
+      rvalue: -1
+    }
+    #vehicle_state_expressions {
+    #  state_type: VEHICLE_THROTTLE_TORQUE_LIMIT
+    #  op: EQUAL
+    #  rvalue: 0
+    #}
+    vehicle_state_expressions {
+      state_type: VEHICLE_DOOR_CLOSED
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: VEHICLE_ENGINE_ON
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: LOW_SPEED_SWITCH_ON
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: WEIGHT_SIGNAL_VALID
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: ECAS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: HOD_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: HOD_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: DRIVER_MONITOR_STATUS
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: DMS_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: DMS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_INSPVA_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_INSPVAX_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_IMU_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: LOCALIZATION_DBW_EXPIRED
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: UBLOX_IMU_STATUS
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: UBLOX_CALIB_STATUS
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+
+    # Region for critical_items
+    critical_items {
+      system_states: UBLOX_SETUP_ERROR
+
+      # Control errors
+      system_states: CONTROL_INIT_SETUP_ERROR
+      system_states: CONTROL_CONTROLLER_REGISTRATION_ERROR
+      system_states: CONTROL_CONFIG_ERROR
+      system_states: CONTROL_NO_REPORT_ERROR
+      system_states: CONTROL_NO_COMMAND_ERROR
+      system_states: CONTROL_BRAKE_MODE_ERROR
+      system_states: CONTROL_TRAJECTORY_ERROR
+      system_states: CONTROL_VEHICLE_STATE_ERROR
+      system_states: CONTROL_POSE_MISSING_ERROR
+      system_states: CONTROL_POSE_EXPIRED_ERROR
+      system_states: CONTROL_IMU_MISSING_ERROR
+      system_states: CONTROL_IMU_EXPIRED_ERROR
+      system_states: CONTROL_STEER_MISSING_ERROR
+      system_states: CONTROL_STEER_EXPIRED_ERROR
+      system_states: CONTROL_THROTTLE_REPORT_MISSING_ERROR
+      system_states: CONTROL_THROTTLE_INFO_REPORT_MISSING_ERROR
+      system_states: CONTROL_GEAR_REPORT_MISSING_ERROR
+      system_states: CONTROL_TRAJECTORY_MISSING_ERROR
+      system_states: CONTROL_TRAJECTORY_EXPIRED_ERROR
+      system_states: CONTROL_INIT_MAP_ERROR
+      system_states: CONTROL_INPUT_ERROR
+      system_states: CONTROL_WATCHDOG_STATE_MISSING_ERROR
+      system_states: CONTROL_SAFE_TRAJECTORY_EXPIRED_ERROR
+      system_states: CONTROL_SAFE_TRAJECTORY_MISSING_ERROR
+
+      # DBW CAN_COMMUNICATION errors
+      system_states: DBW_FAIL_SEND_CAN_MSG
+      system_states: DBW_UDP_EXPIRED
+      system_states: DBW_NODE_LATENCY_HIGH
+      system_states: MCU_SHUTDOWN
+
+      system_states: CONTROL_CMD_MISSING
+      system_states: CONTROL_CMD_EXPIRED
+      system_states: CONTROL_CMD_DISABLED
+      system_states: WATCHDOG_EXPIRED
+      system_states: L4_WATCHDOG_STEERING_COMMAND_TIMEOUT_ERR
+      system_states: L4_WATCHDOG_BRAKE_COMMAND_TIMEOUT_ERR
+      system_states: L4_WATCHDOG_PARKING_REQUEST_ERR
+      system_states: L4_WATCHDOG_APP_WATCHDOG_STATUS_TIMEOUT_ERR
+      system_states: L4_WATCHDOG_VOLTAGE_ERR
+      system_states: L4_WATCHDOG_TEMPERATURE_ERR
+      system_states: L4_WATCHDOG_DCDC_BOTH_ERR
+
+      vehicle_state_expressions {
+        state_type: PT_CAN_BUS_STATE
+        op: EQUAL
+        rvalue: 0
+      }
+      vehicle_state_expressions {
+        state_type: CHASSIS_CAN1_BUS_STATE
+        op: EQUAL
+        rvalue: 0
+      }
+      vehicle_state_expressions {
+        state_type: CHASSIS_CAN2_BUS_STATE
+        op: EQUAL
+        rvalue: 0
+      }
+      vehicle_state_expressions {
+        state_type: COMFORT_CAN_BUS_STATE
+        op: EQUAL
+        rvalue: 0
+      }
+      vehicle_state_expressions {
+        state_type: EMS_COMMUNICATION_TIMEOUT
+        op: EQUAL
+        rvalue: 0
+      }
+      vehicle_state_expressions {
+        state_type: EPS_ERR
+        op: EQUAL
+        rvalue: 0
+      }
+      vehicle_state_expressions {
+        state_type: EPS_COMMUNICATION_TIMEOUT
+        op: EQUAL
+        rvalue: 0
+      }
+      vehicle_state_expressions {
+        state_type: EBS_ERR
+        op: EQUAL
+        rvalue: 0
+      }
+      vehicle_state_expressions {
+        state_type: EBS_COMMUNICATION_TIMEOUT
+        op: EQUAL
+        rvalue: 0
+      }
+      vehicle_state_expressions {
+        state_type: VCU_ERR
+        op: EQUAL
+        rvalue: 0
+      }
+      vehicle_state_expressions {
+        state_type: VCU_COMMUNICATION_TIMEOUT
+        op: EQUAL
+        rvalue: 0
+      }
+      vehicle_state_expressions {
+        state_type: EPB_ERR
+        op: EQUAL
+        rvalue: 0
+      }
+      vehicle_state_expressions {
+        state_type: EPB_COMMUNICATION_TIMEOUT
+        op: EQUAL
+        rvalue: 0
+      }
+      vehicle_state_expressions {
+        state_type: TCU_COMMUNICATION_TIMEOUT
+        op: EQUAL
+        rvalue: 0
+      }
+      vehicle_state_expressions {
+        state_type: ERC_COMMUNICATION_TIMEOUT
+        op: EQUAL
+        rvalue: 0
+      }
+      vehicle_state_expressions {
+        state_type: IBOX_ERR
+        op: EQUAL
+        rvalue: 0
+      }
+      vehicle_state_expressions {
+        state_type: LONGITUDINAL_ACCELERATE_SIGNAL_VALID
+        op: EQUAL
+        rvalue: 1
+      }
+      vehicle_state_expressions {
+        state_type: SPEED_SIGNAL_VALID
+        op: EQUAL
+        rvalue: 1
+      }
+      vehicle_state_expressions {
+        state_type: STEERING_WHEEL_ANGLE_SIGNAL_VALID
+        op: EQUAL
+        rvalue: 1
+      }
+      vehicle_state_expressions {
+        state_type: GEAR_SIGNAL_VALID
+        op: EQUAL
+        rvalue: 1
+      }
+      vehicle_state_expressions {
+        state_type: ENGINE_SPEED_SIGNAL_VALID
+        op: EQUAL
+        rvalue: 1
+      }
+      vehicle_state_expressions {
+        state_type: SUPERPILOT_BUTTON_ERROR
+        op: EQUAL
+        rvalue: 0
+      }
+      vehicle_state_expressions {
+        state_type: ACC_BUTTON_ERROR
+        op: EQUAL
+        rvalue: 0
+      }
+      vehicle_state_expressions {
+        state_type: CLUSTER_COMMUNICATION_TIMEOUT
+        op: EQUAL
+        rvalue: 0
+      }
+      vehicle_state_expressions {
+        state_type: GAS_PEDAL_SIGNAL_VALID
+        op: EQUAL
+        rvalue: 1
+      }
+      vehicle_state_expressions {
+        state_type: BRAKE_PEDAL_SIGNAL_VALID
+        op: EQUAL
+        rvalue: 1
+      }
+    }
+  }
+}
+
+aeb_module {
+  common_inspection {
+    # front left camera
+    system_states: CAMERA_FL_INIT_ERROR
+    system_states: CAMERA_FL_CONFIG_ERROR
+    system_states: CAMERA_FL_START_CAPTURE_ERROR
+    system_states: CAMERA_FL_STOP_CAPTURE_ERROR
+    system_states: CAMERA_FL_READ_FRAME_ERROR
+    system_states: CAMERA_FL_LINK_ERROR
+
+    # front right camera
+    system_states: CAMERA_FR_INIT_ERROR
+    system_states: CAMERA_FR_CONFIG_ERROR
+    system_states: CAMERA_FR_START_CAPTURE_ERROR
+    system_states: CAMERA_FR_STOP_CAPTURE_ERROR
+    system_states: CAMERA_FR_READ_FRAME_ERROR
+    system_states: CAMERA_FR_LINK_ERROR
+
+    # perception
+    system_states: CAMERA_FL_LOST
+    vehicle_state_expressions {
+      state_type: CAMERA_FL_QUALITY_IS_GOOD
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+    system_states: CAMERA_FR_LOST
+    vehicle_state_expressions {
+      state_type: CAMERA_FR_QUALITY_IS_GOOD
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+
+
+    # bumper radar
+    system_states: BUMPER_RADAR_INIT_ERROR
+    system_states: BUMPER_RADAR_CONNECTION_TIMEOUT
+    system_states: BUMPER_RADAR_PARSE_FAILURE
+    system_states: BUMPER_RADAR_NVMREAD_FAILURE
+    system_states: BUMPER_RADAR_NVMWRITE_FAILURE
+    system_states: BUMPER_RADAR_PERSISTENT_ERROR
+    system_states: BUMPER_RADAR_INTERFERENCE_DETECTED
+    system_states: BUMPER_RADAR_TEMPERATURE_ERROR
+    system_states: BUMPER_RADAR_TEMPORARY_ERROR
+    system_states: BUMPER_RADAR_VOLTAGE_ERROR
+    system_states: BUMPER_RADAR_OUTPUT_TYPE_CONFIG_ERROR
+    system_states: BUMPER_RADAR_SENSORID_CONFIG_ERROR
+    system_states: BUMPER_RADAR_FILTER_CONFIG_ERROR
+    system_states: BUMPER_RADAR_INPUT_TIME_OUT_ERROR
+
+    system_states: UBLOX_NTP_ERROR
+    system_states: UBLOX_SETUP_ERROR
+
+    # OBS errors
+    system_states: OBS_OCCU_GRID_PARAM_INVALID
+    system_states: OBS_CROP_INVALID
+    system_states: OBS_RADAR_BL_CONFIG_ERROR
+    system_states: OBS_RADAR_ONCOMING_TRAFFIC_DETECTOR_CONFIG_ERROR
+    system_states: OBS_CUDA_ERROR
+    system_states: OBS_SERIALIZATION_FAILED
+    system_states: FUSION_TRACKER_SERIALIZATION_FAILED
+    system_states: CUDA_STEREO_ERROR
+    system_states: OBS_FEED_IMAGE_ASYNC_FAILED
+    system_states: OBS_INIT_MAP_ERROR
+
+    # LANE errors
+    system_states: LANE_CLS_CHANNEL_SIZE_INVALID
+    system_states: LANE_CLS_SIZE_INVALID
+    system_states: LANE_CUDA_ERROR
+    system_states: LANE_NOT_UNIFIED_MODEL
+    system_states: LANE_GET_TRACKER_PARAM_FAILED
+    system_states: LANE_GET_DETECTOR_PARAM_FAILED
+    system_states: LANE_GET_PATH_PARAM_FAILED
+    system_states: LANE_GET_ODD_PARAM_FAILED
+    system_states: LANE_GET_CALIB_PARAM_FAILED
+    system_states: LANE_TRACKER_INIT_FAILED
+    system_states: LANE_DETECTED_SIZE_INVAILD
+    system_states: LANE_SERIALIZATION_FAILED
+    system_states: LANE_EGO_LANE_WIDTH_NOT_SET
+    system_states: LANE_PROB_MAP_DIMS_ERROR
+    system_states: LANE_EMBD_MAP_DIMS_ERROR
+    system_states: LANE_CENTER_CURVE_SIZE_ERROR
+    system_states: LANE_DETECTOR_CREATE_FAILED
+    system_states: LANE_ROAD_MODEL_UNKNOWN
+    system_states: LANE_MATCH_IMG_POINT_INVALID
+    system_states: LANE_INPUT_INDEX_INVALID
+    system_states: LANE_CLS_OUTPUT_INDEX_INVALID
+    system_states: LANE_INS_OUTPUT_INDEX_INVALID
+    system_states: LANE_CLS_MAP_SIZE_INVALID
+    system_states: LANE_CREATE_EXE_CONTEXT_FAILED
+    system_states: LANE_EGO_OUTPUT_INDEX_INVALID
+    system_states: LANE_EXIST_OUTPUT_INDEX_INVALID
+    system_states: LANE_EGO_OUTPUT_SIZE_INVALID
+    system_states: LANE_CONFIG_ERROR
+    system_states: LANE_NEAREST_TWO_PATH_POINTS_INVALID
+    system_states: LANE_RESULT_INVALID
+    system_states: LANE_INIT_MAP_ERROR
+
+    # Prediction errors
+    system_states: PREDICTION_INIT_CONFIG_ERROR
+    system_states: PREDICTION_INIT_MAP_ERROR
+    system_states: PREDICTION_BUILD_REGION_SCENARIO_EGO_TRAJECTORY_ERROR
+    system_states: PREDICTION_NO_LANE_DETECTION_ERROR
+    system_states: PREDICTION_FAILED_TO_PREDICT
+    system_states: PREDICTION_STALE_PERCEPTION_OBSTACLE_ERROR
+    system_states: PREDICTION_TOO_OLD_LANE_DETECTION_ERROR
+    system_states: PREDICTION_FAILED_TO_BUILD_REGION_MAP_FROM_DETECTION
+    system_states: PREDICTION_FAILED_TO_BUILD_AEB_FAKE_LANE
+    system_states: PREDICTION_OLD_EGO_LANE_WITH_LARGE_CURAVTURE_ERROR
+    system_states: PREDICTION_EGO_OUT_OF_EGO_LANE_ERROR
+    system_states: PREDICTION_RESULT_BAD
+    system_states: PREDICTION_RESULT_ERROR
+
+    # Planning errors
+    system_states: PLANNING_INIT_CONFIG_ERROR
+    system_states: PLANNING_INIT_MAP_ERROR
+    system_states: PLANNING_FAILED_TO_PLAN
+    system_states: PLANNING_FAILED_TO_PUB
+    system_states: PLANNING_FAILED_TO_SUB
+    system_states: PLANNING_FAILED_TO_SYNC_VEHICLE_STATUS
+    system_states: PLANNING_FAILED_TO_SYNC_IMU_COORDINATE_STATE
+    system_states: PLANNING_FAILED_TO_SYNC_EGO_TRAJECTORY
+    system_states: PLANNING_FAILED_TO_SYNC_PERCEPTION_OBSTACLE
+    system_states: PLANNING_FAILED_TO_SYNC_PREDICTION_OBSTACLE
+    system_states: PLANNING_FAILED_TO_SYNC_LANE
+    system_states: PLANNING_FAILED_TO_GET_VALID_FRAME_PTR
+    system_states: PLANNING_FAILED_TO_CHECK_MAP
+    system_states: PLANNING_FAILED_TO_GET_VALID_TIMESTAMP
+    system_states: PLANNING_FAILED_TO_GET_VALID_VEHICLE_STATUS
+    system_states: PLANNING_FAILED_FOR_UNKNOWN
+
+    # Control errors
+    system_states: CONTROL_INIT_SETUP_ERROR
+    system_states: CONTROL_CONTROLLER_REGISTRATION_ERROR
+    system_states: CONTROL_CONFIG_ERROR
+    system_states: CONTROL_NO_REPORT_ERROR
+    system_states: CONTROL_NO_COMMAND_ERROR
+    system_states: CONTROL_BRAKE_MODE_ERROR
+    system_states: CONTROL_TRAJECTORY_ERROR
+    system_states: CONTROL_VEHICLE_STATE_ERROR
+    system_states: CONTROL_POSE_MISSING_ERROR
+    system_states: CONTROL_POSE_EXPIRED_ERROR
+    system_states: CONTROL_IMU_MISSING_ERROR
+    system_states: CONTROL_IMU_EXPIRED_ERROR
+    system_states: CONTROL_STEER_MISSING_ERROR
+    system_states: CONTROL_STEER_EXPIRED_ERROR
+    system_states: CONTROL_THROTTLE_REPORT_MISSING_ERROR
+    system_states: CONTROL_THROTTLE_INFO_REPORT_MISSING_ERROR
+    system_states: CONTROL_GEAR_REPORT_MISSING_ERROR
+    system_states: CONTROL_TRAJECTORY_MISSING_ERROR
+    system_states: CONTROL_TRAJECTORY_EXPIRED_ERROR
+    system_states: CONTROL_INIT_MAP_ERROR
+    system_states: CONTROL_INPUT_ERROR
+    system_states: CONTROL_WATCHDOG_STATE_MISSING_ERROR
+    system_states: CONTROL_SAFE_TRAJECTORY_EXPIRED_ERROR
+    system_states: CONTROL_SAFE_TRAJECTORY_MISSING_ERROR
+
+    # DBW Steering errors
+    system_states: DBW_FAIL_SEND_CAN_MSG
+    system_states: DBW_UDP_EXPIRED
+    system_states: DBW_NODE_LATENCY_HIGH
+    system_states: MCU_SHUTDOWN
+
+    system_states: CONTROL_CMD_MISSING
+    system_states: CONTROL_CMD_EXPIRED
+    system_states: CONTROL_CMD_DISABLED
+    system_states: WATCHDOG_EXPIRED
+    system_states: L4_WATCHDOG_STEERING_COMMAND_TIMEOUT_ERR
+    system_states: L4_WATCHDOG_BRAKE_COMMAND_TIMEOUT_ERR
+    system_states: L4_WATCHDOG_APP_WATCHDOG_STATUS_TIMEOUT_ERR
+    system_states: L4_WATCHDOG_VOLTAGE_ERR
+    system_states: L4_WATCHDOG_TEMPERATURE_ERR
+    system_states: L4_WATCHDOG_DCDC_BOTH_ERR
+
+
+    # CALIB errors
+    system_states: CALIB_IMU_TO_IMG_CONFIG_ERROR
+    system_states: CALIB_SERIALIZATION_FAILED
+    system_states: CALIB_GET_RADAR_FAILED
+    system_states: CALIB_GET_CAMERA_FAILED
+    system_states: CALIB_GET_STEREO_FAILED
+    system_states: CALIB_UTILS_MATRIX_INVALID
+    system_states: CALIB_CAMERA_LOAD_CONFIG_FAILED
+    system_states: CALIB_CAMERA_CONFIG_FIELD_MISSING
+    system_states: CALIB_CAMERA_CONFIG_FIELD_INVALID
+    system_states: CALIB_RADAR_LOAD_CONFIG_FAILED
+    system_states: CALIB_RADAR_CONFIG_FIELD_MISSING
+    system_states: CALIB_RADAR_CONFIG_FIELD_INVALID
+    system_states: CALIB_STEREO_CAMERA_LOAD_CONFIG_FAILED
+    system_states: CALIB_STEREO_CAMERA_CONFIG_FIELD_MISSING
+    system_states: CALIB_STEREO_CAMERA_CONFIG_FIELD_INVALID
+
+    system_states: IPC_SUB_CAMERA_FAILED
+    system_states: IPC_SUB_LANE_FAILED
+    system_states: IPC_SUB_STEREO_LEFT_FAILED
+    system_states: IPC_SUB_STEREO_RIGHT_FAILED
+    system_states: IPC_SUB_ODOM_FAILED
+    system_states: IPC_SUB_LOCALIZATION_FAILED
+    system_states: IPC_SUB_VEHICLE_MISC_FAILED
+    system_states: SENSOR_FRONT_OUT_OF_SYNC
+    system_states: FRONT_CAMERA_OUT_OF_SYNC
+    system_states: TF_SIGNAL_TRACKER_INIT_FAILED
+    system_states: CAMERA_FL_OUT_OF_SYNC
+    system_states: CAMERA_FR_OUT_OF_SYNC
+    system_states: RADAR_OUT_OF_SYNC
+    #system_states: RADAR_LIDAR_OUT_OF_SYNC
+
+    # CALIB errors:  Sensor Calibration Extrinsic Parameter errors
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_CAMERA_FL_OFF
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_CAMERA_FR_OFF
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_CAMERA_STEREO_OFF
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_RADAR_F_OFF
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_IMU_OFF
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_LANE_CAMERA_OFF
+  }
+
+  self_inspection {
+    use_common: true
+
+    # Calibration states
+    unpredictable_environment_states {
+      state_type: SENSOR_CAMERA_LANE_NOT_ALIGNED_IN_IMU
+      op: EQUAL
+      rvalue: 0
+    }
+  }
+
+  maintain_standby_inspection {
+    use_common: true
+    unpredictable_environment_states {
+      state_type: SENSOR_CAMERA_LANE_NOT_ALIGNED_IN_IMU
+      op: EQUAL
+      rvalue: 0
+    }
+    unpredictable_environment_states {
+      state_type: UBLOX_POSITION_STATUS
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: EGO_SPEED
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 10 # 10km/h
+    }
+    vehicle_state_expressions {
+      state_type: VEHICLE_ENGINE_ON
+      op: EQUAL
+      rvalue: 1
+    }
+    vehicle_state_expressions {
+      state_type: EBS_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: IBOX_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EBS_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: COMFORT_CAN_BUS_STATE
+      op: EQUAL
+      rvalue: 0
+    }
+  }
+
+  # maintain a minimum scope checks for AEB's active inspection to keep fcw or eb to a maximum extent,
+  # even though some checks in maintain_standby_inspection failed,
+  # note: active for AEB means fcw or eb.
+  maintain_active_inspection {
+    vehicle_state_expressions {
+      state_type: EBS_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+  }
+}
+
+ldw_module {
+  common_inspection {
+    # front left camera
+    system_states: CAMERA_FL_INIT_ERROR
+    system_states: CAMERA_FL_CONFIG_ERROR
+    system_states: CAMERA_FL_START_CAPTURE_ERROR
+    system_states: CAMERA_FL_STOP_CAPTURE_ERROR
+    system_states: CAMERA_FL_READ_FRAME_ERROR
+    system_states: CAMERA_FL_LINK_ERROR
+
+    # perception
+    system_states: CAMERA_FL_LOST
+    vehicle_state_expressions {
+      state_type: CAMERA_FL_QUALITY_IS_GOOD
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+    system_states: CAMERA_SR_LOST
+    vehicle_state_expressions {
+      state_type: CAMERA_SR_QUALITY_IS_GOOD
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+
+
+    system_states: UBLOX_NTP_ERROR
+    system_states: UBLOX_SETUP_ERROR
+
+    # LANE errors
+    system_states: LANE_CLS_CHANNEL_SIZE_INVALID
+    system_states: LANE_CLS_SIZE_INVALID
+    system_states: LANE_CUDA_ERROR
+    system_states: LANE_NOT_UNIFIED_MODEL
+    system_states: LANE_GET_TRACKER_PARAM_FAILED
+    system_states: LANE_GET_DETECTOR_PARAM_FAILED
+    system_states: LANE_GET_PATH_PARAM_FAILED
+    system_states: LANE_GET_ODD_PARAM_FAILED
+    system_states: LANE_GET_CALIB_PARAM_FAILED
+    system_states: LANE_TRACKER_INIT_FAILED
+    system_states: LANE_DETECTED_SIZE_INVAILD
+    system_states: LANE_SERIALIZATION_FAILED
+    system_states: LANE_EGO_LANE_WIDTH_NOT_SET
+    system_states: LANE_PROB_MAP_DIMS_ERROR
+    system_states: LANE_EMBD_MAP_DIMS_ERROR
+    system_states: LANE_CENTER_CURVE_SIZE_ERROR
+    system_states: LANE_DETECTOR_CREATE_FAILED
+    system_states: LANE_ROAD_MODEL_UNKNOWN
+    system_states: LANE_MATCH_IMG_POINT_INVALID
+    system_states: LANE_INPUT_INDEX_INVALID
+    system_states: LANE_CLS_OUTPUT_INDEX_INVALID
+    system_states: LANE_INS_OUTPUT_INDEX_INVALID
+    system_states: LANE_CLS_MAP_SIZE_INVALID
+    system_states: LANE_CREATE_EXE_CONTEXT_FAILED
+    system_states: LANE_EGO_OUTPUT_INDEX_INVALID
+    system_states: LANE_EXIST_OUTPUT_INDEX_INVALID
+    system_states: LANE_EGO_OUTPUT_SIZE_INVALID
+    system_states: LANE_CONFIG_ERROR
+    system_states: LANE_NEAREST_TWO_PATH_POINTS_INVALID
+    system_states: LANE_RESULT_INVALID
+    system_states: LANE_INIT_MAP_ERROR
+
+    # DBW errors
+    system_states: DBW_FAIL_SEND_CAN_MSG
+    system_states: DBW_UDP_EXPIRED
+    system_states: DBW_NODE_LATENCY_HIGH
+    system_states: MCU_SHUTDOWN
+
+    system_states: WATCHDOG_EXPIRED
+    system_states: L4_WATCHDOG_APP_WATCHDOG_STATUS_TIMEOUT_ERR
+    system_states: L4_WATCHDOG_VOLTAGE_ERR
+    system_states: L4_WATCHDOG_TEMPERATURE_ERR
+    system_states: L4_WATCHDOG_DCDC_BOTH_ERR
+
+    # CALIB errors
+    system_states: CALIB_IMU_TO_IMG_CONFIG_ERROR
+    system_states: CALIB_SERIALIZATION_FAILED
+    system_states: CALIB_GET_CAMERA_FAILED
+    system_states: CALIB_UTILS_MATRIX_INVALID
+    system_states: CALIB_CAMERA_LOAD_CONFIG_FAILED
+    system_states: CALIB_CAMERA_CONFIG_FIELD_MISSING
+    system_states: CALIB_CAMERA_CONFIG_FIELD_INVALID
+
+    system_states: IPC_SUB_CAMERA_FAILED
+    system_states: IPC_SUB_LANE_FAILED
+    system_states: IPC_SUB_ODOM_FAILED
+    system_states: IPC_SUB_LOCALIZATION_FAILED
+    system_states: IPC_SUB_VEHICLE_MISC_FAILED
+    system_states: SENSOR_FRONT_OUT_OF_SYNC
+    system_states: FRONT_CAMERA_OUT_OF_SYNC
+    system_states: TF_SIGNAL_TRACKER_INIT_FAILED
+    system_states: CAMERA_FL_OUT_OF_SYNC
+
+    # CALIB errors:  Sensor Calibration Extrinsic Parameter errors
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_CAMERA_FL_OFF
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_LANE_CAMERA_OFF
+  }
+
+  self_inspection {
+    use_common: true
+  }
+
+  maintain_standby_inspection {
+    use_common: true
+    unpredictable_environment_states {
+      state_type: EGO_LANE_LDW_LEFT_SIDE_STATUS
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+    unpredictable_environment_states {
+      state_type: EGO_LANE_LDW_RIGHT_SIDE_STATUS
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: TURN_SIGNAL_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: BCM_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+  }
+
+  maintain_active_inspection {
+    use_common: true
+    unpredictable_environment_states {
+      state_type: EGO_LANE_LDW_LEFT_SIDE_STATUS
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+    unpredictable_environment_states {
+      state_type: EGO_LANE_LDW_RIGHT_SIDE_STATUS
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: TURN_SIGNAL_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: BCM_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+  }
+}
+
+bsd_module {
+  common_inspection {
+    # side left camera
+    system_states: CAMERA_SL_INIT_ERROR
+    system_states: CAMERA_SL_CONFIG_ERROR
+    system_states: CAMERA_SL_START_CAPTURE_ERROR
+    system_states: CAMERA_SL_STOP_CAPTURE_ERROR
+    system_states: CAMERA_SL_READ_FRAME_ERROR
+    system_states: CAMERA_SL_LINK_ERROR
+
+    # side right camera
+    system_states: CAMERA_SR_INIT_ERROR
+    system_states: CAMERA_SR_CONFIG_ERROR
+    system_states: CAMERA_SR_START_CAPTURE_ERROR
+    system_states: CAMERA_SR_STOP_CAPTURE_ERROR
+    system_states: CAMERA_SR_READ_FRAME_ERROR
+    system_states: CAMERA_SR_LINK_ERROR
+
+ 
+    # rear left camera
+    system_states: CAMERA_RL_INIT_ERROR
+    system_states: CAMERA_RL_CONFIG_ERROR
+    system_states: CAMERA_RL_START_CAPTURE_ERROR
+    system_states: CAMERA_RL_STOP_CAPTURE_ERROR
+    system_states: CAMERA_RL_READ_FRAME_ERROR
+    system_states: CAMERA_RL_LINK_ERROR
+
+    # rear right camera
+    system_states: CAMERA_RR_INIT_ERROR
+    system_states: CAMERA_RR_CONFIG_ERROR
+    system_states: CAMERA_RR_START_CAPTURE_ERROR
+    system_states: CAMERA_RR_STOP_CAPTURE_ERROR
+    system_states: CAMERA_RR_READ_FRAME_ERROR
+    system_states: CAMERA_RR_LINK_ERROR
+
+    # rear left radar
+    system_states: REAR_LEFT_RADAR_INIT_ERROR
+    system_states: REAR_LEFT_RADAR_CONNECTION_TIMEOUT
+    system_states: REAR_LEFT_RADAR_PARSE_FAILURE
+    system_states: REAR_LEFT_RADAR_NVMREAD_FAILURE
+    system_states: REAR_LEFT_RADAR_NVMWRITE_FAILURE
+    system_states: REAR_LEFT_RADAR_PERSISTENT_ERROR
+    system_states: REAR_LEFT_RADAR_INTERFERENCE_DETECTED
+    system_states: REAR_LEFT_RADAR_TEMPERATURE_ERROR
+    system_states: REAR_LEFT_RADAR_TEMPORARY_ERROR
+    system_states: REAR_LEFT_RADAR_VOLTAGE_ERROR
+    system_states: REAR_LEFT_RADAR_OUTPUT_TYPE_CONFIG_ERROR
+    system_states: REAR_LEFT_RADAR_SENSORID_CONFIG_ERROR
+    system_states: REAR_LEFT_RADAR_FILTER_CONFIG_ERROR
+    system_states: REAR_LEFT_RADAR_INPUT_TIME_OUT_ERROR
+
+
+    # rear right radar
+    system_states: REAR_RIGHT_RADAR_INIT_ERROR
+    system_states: REAR_RIGHT_RADAR_CONNECTION_TIMEOUT
+    system_states: REAR_RIGHT_RADAR_PARSE_FAILURE
+    system_states: REAR_RIGHT_RADAR_NVMREAD_FAILURE
+    system_states: REAR_RIGHT_RADAR_NVMWRITE_FAILURE
+    system_states: REAR_RIGHT_RADAR_PERSISTENT_ERROR
+    system_states: REAR_RIGHT_RADAR_INTERFERENCE_DETECTED
+    system_states: REAR_RIGHT_RADAR_TEMPERATURE_ERROR
+    system_states: REAR_RIGHT_RADAR_TEMPORARY_ERROR
+    system_states: REAR_RIGHT_RADAR_VOLTAGE_ERROR
+    system_states: REAR_RIGHT_RADAR_OUTPUT_TYPE_CONFIG_ERROR
+    system_states: REAR_RIGHT_RADAR_SENSORID_CONFIG_ERROR
+    system_states: REAR_RIGHT_RADAR_FILTER_CONFIG_ERROR
+    system_states: REAR_RIGHT_RADAR_INPUT_TIME_OUT_ERROR
+
+    system_states: CAMERA_SL_OUT_OF_SYNC
+    system_states: CAMERA_SR_OUT_OF_SYNC
+    system_states: CAMERA_RL_OUT_OF_SYNC
+    system_states: CAMERA_RR_OUT_OF_SYNC
+    system_states: SENSOR_SL_OUT_OF_SYNC
+    system_states: SENSOR_SR_OUT_OF_SYNC
+    system_states: SENSOR_RL_OUT_OF_SYNC
+    system_states: SENSOR_RR_OUT_OF_SYNC
+
+    # perception
+    system_states: RADAR_RL_LOST
+    system_states: RADAR_RS_LOST
+
+    system_states: CAMERA_SL_LOST
+    vehicle_state_expressions {
+      state_type: CAMERA_SL_QUALITY_IS_GOOD
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+
+    system_states: CAMERA_SR_LOST
+    vehicle_state_expressions {
+      state_type: CAMERA_SR_QUALITY_IS_GOOD
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+
+    system_states: CAMERA_RL_LOST
+    vehicle_state_expressions {
+      state_type: CAMERA_RL_QUALITY_IS_GOOD
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+
+    system_states: CAMERA_RR_LOST
+    vehicle_state_expressions {
+      state_type: CAMERA_RR_QUALITY_IS_GOOD
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+
+
+    # OBS errors
+    system_states: OBS_OCCU_GRID_PARAM_INVALID
+    system_states: OBS_CROP_INVALID
+    system_states: OBS_RADAR_BL_CONFIG_ERROR
+    system_states: OBS_RADAR_ONCOMING_TRAFFIC_DETECTOR_CONFIG_ERROR
+    system_states: OBS_CUDA_ERROR
+    system_states: OBS_SERIALIZATION_FAILED
+    system_states: FUSION_TRACKER_SERIALIZATION_FAILED
+    system_states: OBS_FEED_IMAGE_ASYNC_FAILED
+    system_states: OBS_INIT_MAP_ERROR
+
+    # Planning errors
+    system_states: PLANNING_INIT_CONFIG_ERROR
+    system_states: PLANNING_INIT_MAP_ERROR
+    system_states: PLANNING_FAILED_TO_PLAN
+    system_states: PLANNING_FAILED_TO_PUB
+    system_states: PLANNING_FAILED_TO_SUB
+    system_states: PLANNING_FAILED_TO_SYNC_VEHICLE_STATUS
+    system_states: PLANNING_FAILED_TO_SYNC_IMU_COORDINATE_STATE
+    system_states: PLANNING_FAILED_TO_SYNC_EGO_TRAJECTORY
+    system_states: PLANNING_FAILED_TO_SYNC_PERCEPTION_OBSTACLE
+    system_states: PLANNING_FAILED_TO_SYNC_PREDICTION_OBSTACLE
+    system_states: PLANNING_FAILED_TO_SYNC_LANE
+    system_states: PLANNING_FAILED_TO_GET_VALID_FRAME_PTR
+    system_states: PLANNING_FAILED_TO_CHECK_MAP
+    system_states: PLANNING_FAILED_TO_GET_VALID_TIMESTAMP
+    system_states: PLANNING_FAILED_TO_GET_VALID_VEHICLE_STATUS
+    system_states: PLANNING_FAILED_FOR_UNKNOWN
+
+    # DBW errors
+    system_states: DBW_FAIL_SEND_CAN_MSG
+    system_states: DBW_UDP_EXPIRED
+    system_states: DBW_NODE_LATENCY_HIGH
+    system_states: MCU_SHUTDOWN
+
+    system_states: WATCHDOG_EXPIRED
+    system_states: L4_WATCHDOG_APP_WATCHDOG_STATUS_TIMEOUT_ERR
+    system_states: L4_WATCHDOG_VOLTAGE_ERR
+    system_states: L4_WATCHDOG_TEMPERATURE_ERR
+    system_states: L4_WATCHDOG_DCDC_BOTH_ERR
+
+    ## Calibration errors
+    system_states: CALIB_GET_RADAR_FAILED
+    system_states: CALIB_GET_CAMERA_FAILED
+    system_states: IPC_SUB_CAMERA_FAILED
+    system_states: IPC_SUB_ODOM_FAILED
+    system_states: IPC_SUB_LOCALIZATION_FAILED
+    system_states: IPC_SUB_VEHICLE_MISC_FAILED
+    system_states: SENSOR_FRONT_OUT_OF_SYNC
+    system_states: FRONT_CAMERA_OUT_OF_SYNC
+    system_states: TF_SIGNAL_TRACKER_INIT_FAILED
+
+    system_states: RADAR_OUT_OF_SYNC
+    #system_states: RADAR_LIDAR_OUT_OF_SYNC
+  }
+
+  self_inspection {
+    use_common: true
+  }
+
+  maintain_standby_inspection {
+    use_common: true
+
+    unpredictable_environment_states {
+      state_type: BSD_LEFT_SIDE_STATE
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+    unpredictable_environment_states {
+      state_type: BSD_RIGHT_SIDE_STATE
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EGO_SPEED
+      op: GREATER_THAN
+      rvalue: 0 # 0km/h
+    }
+    vehicle_state_expressions {
+      state_type: TURN_SIGNAL_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+  }
+
+  maintain_active_inspection {
+    use_common: true
+
+    unpredictable_environment_states {
+      state_type: BSD_LEFT_SIDE_STATE
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+    unpredictable_environment_states {
+      state_type: BSD_RIGHT_SIDE_STATE
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: EGO_SPEED
+      op: GREATER_THAN
+      rvalue: 0 # 0km/h
+    }
+    vehicle_state_expressions {
+      state_type: TURN_SIGNAL_ERR
+      op: EQUAL
+      rvalue: 0
+    }
+    vehicle_state_expressions {
+      state_type: BCM_COMMUNICATION_TIMEOUT
+      op: EQUAL
+      rvalue: 0
+    }
+  }
+}
+
+alc_left_module {
+  maintain_active_inspection {
+    system_states: CAMERA_SL_LOST
+    vehicle_state_expressions {
+      state_type: CAMERA_SL_QUALITY_IS_GOOD
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+
+    system_states: CAMERA_RL_LOST
+    vehicle_state_expressions {
+      state_type: CAMERA_RL_QUALITY_IS_GOOD
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+
+    system_states: CAMERA_SL_OUT_OF_SYNC
+    system_states: CAMERA_RL_OUT_OF_SYNC
+    system_states: SENSOR_SL_OUT_OF_SYNC
+    system_states: SENSOR_RL_OUT_OF_SYNC
+
+
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_CAMERA_SL_OFF
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_RADAR_RL_OFF
+
+    # side left camera
+    system_states: CAMERA_SL_INIT_ERROR
+    system_states: CAMERA_SL_CONFIG_ERROR
+    system_states: CAMERA_SL_START_CAPTURE_ERROR
+    system_states: CAMERA_SL_STOP_CAPTURE_ERROR
+    system_states: CAMERA_SL_READ_FRAME_ERROR
+    system_states: CAMERA_SL_LINK_ERROR
+
+    # rear left camera
+    system_states: CAMERA_RL_INIT_ERROR
+    system_states: CAMERA_RL_CONFIG_ERROR
+    system_states: CAMERA_RL_START_CAPTURE_ERROR
+    system_states: CAMERA_RL_STOP_CAPTURE_ERROR
+    system_states: CAMERA_RL_READ_FRAME_ERROR
+    system_states: CAMERA_RL_LINK_ERROR
+
+    # rear left radar
+    system_states: REAR_LEFT_RADAR_INIT_ERROR
+    system_states: REAR_LEFT_RADAR_CONNECTION_TIMEOUT
+    system_states: REAR_LEFT_RADAR_PARSE_FAILURE
+    system_states: REAR_LEFT_RADAR_NVMREAD_FAILURE
+    system_states: REAR_LEFT_RADAR_NVMWRITE_FAILURE
+    system_states: REAR_LEFT_RADAR_PERSISTENT_ERROR
+    system_states: REAR_LEFT_RADAR_INTERFERENCE_DETECTED
+    system_states: REAR_LEFT_RADAR_TEMPERATURE_ERROR
+    system_states: REAR_LEFT_RADAR_TEMPORARY_ERROR
+    system_states: REAR_LEFT_RADAR_VOLTAGE_ERROR
+    system_states: REAR_LEFT_RADAR_OUTPUT_TYPE_CONFIG_ERROR
+    system_states: REAR_LEFT_RADAR_SENSORID_CONFIG_ERROR
+    system_states: REAR_LEFT_RADAR_FILTER_CONFIG_ERROR
+    system_states: REAR_LEFT_RADAR_INPUT_TIME_OUT_ERROR
+  }
+}
+
+alc_right_module {
+  maintain_active_inspection {
+    system_states: CAMERA_SR_LOST
+    vehicle_state_expressions {
+      state_type: CAMERA_SR_QUALITY_IS_GOOD
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+
+
+    system_states: CAMERA_RR_LOST
+    vehicle_state_expressions {
+      state_type: CAMERA_RR_QUALITY_IS_GOOD
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+
+    system_states: CAMERA_SR_OUT_OF_SYNC
+    system_states: CAMERA_RR_OUT_OF_SYNC
+    system_states: SENSOR_SR_OUT_OF_SYNC
+    system_states: SENSOR_RR_OUT_OF_SYNC
+
+
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_CAMERA_SR_OFF
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_RADAR_RR_OFF
+
+    # side right camera
+    system_states: CAMERA_SR_INIT_ERROR
+    system_states: CAMERA_SR_CONFIG_ERROR
+    system_states: CAMERA_SR_START_CAPTURE_ERROR
+    system_states: CAMERA_SR_STOP_CAPTURE_ERROR
+    system_states: CAMERA_SR_READ_FRAME_ERROR
+    system_states: CAMERA_SR_LINK_ERROR
+
+    # rear right camera
+    system_states: CAMERA_RR_INIT_ERROR
+    system_states: CAMERA_RR_CONFIG_ERROR
+    system_states: CAMERA_RR_START_CAPTURE_ERROR
+    system_states: CAMERA_RR_STOP_CAPTURE_ERROR
+    system_states: CAMERA_RR_READ_FRAME_ERROR
+    system_states: CAMERA_RR_LINK_ERROR
+
+    # rear right radar
+    system_states: REAR_RIGHT_RADAR_INIT_ERROR
+    system_states: REAR_RIGHT_RADAR_CONNECTION_TIMEOUT
+    system_states: REAR_RIGHT_RADAR_PARSE_FAILURE
+    system_states: REAR_RIGHT_RADAR_NVMREAD_FAILURE
+    system_states: REAR_RIGHT_RADAR_NVMWRITE_FAILURE
+    system_states: REAR_RIGHT_RADAR_PERSISTENT_ERROR
+    system_states: REAR_RIGHT_RADAR_INTERFERENCE_DETECTED
+    system_states: REAR_RIGHT_RADAR_TEMPERATURE_ERROR
+    system_states: REAR_RIGHT_RADAR_TEMPORARY_ERROR
+    system_states: REAR_RIGHT_RADAR_VOLTAGE_ERROR
+    system_states: REAR_RIGHT_RADAR_OUTPUT_TYPE_CONFIG_ERROR
+    system_states: REAR_RIGHT_RADAR_SENSORID_CONFIG_ERROR
+    system_states: REAR_RIGHT_RADAR_FILTER_CONFIG_ERROR
+    system_states: REAR_RIGHT_RADAR_INPUT_TIME_OUT_ERROR
+  }
+}
+
+nudge_module {
+  maintain_active_inspection {
+    ## Copy from alc_left_module
+    system_states: CAMERA_SL_LOST
+    vehicle_state_expressions {
+      state_type: CAMERA_SL_QUALITY_IS_GOOD
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+
+    system_states: CAMERA_RL_LOST
+    vehicle_state_expressions {
+      state_type: CAMERA_RL_QUALITY_IS_GOOD
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+
+    system_states: CAMERA_SL_OUT_OF_SYNC
+    system_states: CAMERA_RL_OUT_OF_SYNC
+    system_states: SENSOR_SL_OUT_OF_SYNC
+    system_states: SENSOR_RL_OUT_OF_SYNC
+
+
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_CAMERA_SL_OFF
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_RADAR_RL_OFF
+
+    ### side left camera
+    system_states: CAMERA_SL_INIT_ERROR
+    system_states: CAMERA_SL_CONFIG_ERROR
+    system_states: CAMERA_SL_START_CAPTURE_ERROR
+    system_states: CAMERA_SL_STOP_CAPTURE_ERROR
+    system_states: CAMERA_SL_READ_FRAME_ERROR
+    system_states: CAMERA_SL_LINK_ERROR
+
+    ### rear left camera
+    system_states: CAMERA_RL_INIT_ERROR
+    system_states: CAMERA_RL_CONFIG_ERROR
+    system_states: CAMERA_RL_START_CAPTURE_ERROR
+    system_states: CAMERA_RL_STOP_CAPTURE_ERROR
+    system_states: CAMERA_RL_READ_FRAME_ERROR
+    system_states: CAMERA_RL_LINK_ERROR
+
+    ### rear left radar
+    system_states: REAR_LEFT_RADAR_INIT_ERROR
+    system_states: REAR_LEFT_RADAR_CONNECTION_TIMEOUT
+    system_states: REAR_LEFT_RADAR_PARSE_FAILURE
+    system_states: REAR_LEFT_RADAR_NVMREAD_FAILURE
+    system_states: REAR_LEFT_RADAR_NVMWRITE_FAILURE
+    system_states: REAR_LEFT_RADAR_PERSISTENT_ERROR
+    system_states: REAR_LEFT_RADAR_INTERFERENCE_DETECTED
+    system_states: REAR_LEFT_RADAR_TEMPERATURE_ERROR
+    system_states: REAR_LEFT_RADAR_TEMPORARY_ERROR
+    system_states: REAR_LEFT_RADAR_VOLTAGE_ERROR
+    system_states: REAR_LEFT_RADAR_OUTPUT_TYPE_CONFIG_ERROR
+    system_states: REAR_LEFT_RADAR_SENSORID_CONFIG_ERROR
+    system_states: REAR_LEFT_RADAR_FILTER_CONFIG_ERROR
+    system_states: REAR_LEFT_RADAR_INPUT_TIME_OUT_ERROR
+
+    ## Copy from alc_right_module
+    system_states: CAMERA_SR_LOST
+    vehicle_state_expressions {
+      state_type: CAMERA_SR_QUALITY_IS_GOOD
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+
+
+    system_states: CAMERA_RR_LOST
+    vehicle_state_expressions {
+      state_type: CAMERA_RR_QUALITY_IS_GOOD
+      op: GREATER_THAN_OR_EQUAL
+      rvalue: 0
+    }
+
+    system_states: CAMERA_SR_OUT_OF_SYNC
+    system_states: CAMERA_RR_OUT_OF_SYNC
+    system_states: SENSOR_SR_OUT_OF_SYNC
+    system_states: SENSOR_RR_OUT_OF_SYNC
+
+
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_CAMERA_SR_OFF
+    system_states: SENSOR_CALIB_EXTRINSIC_PARAM_RADAR_RR_OFF
+
+    ### side right camera
+    system_states: CAMERA_SR_INIT_ERROR
+    system_states: CAMERA_SR_CONFIG_ERROR
+    system_states: CAMERA_SR_START_CAPTURE_ERROR
+    system_states: CAMERA_SR_STOP_CAPTURE_ERROR
+    system_states: CAMERA_SR_READ_FRAME_ERROR
+    system_states: CAMERA_SR_LINK_ERROR
+
+    ### rear right camera
+    system_states: CAMERA_RR_INIT_ERROR
+    system_states: CAMERA_RR_CONFIG_ERROR
+    system_states: CAMERA_RR_START_CAPTURE_ERROR
+    system_states: CAMERA_RR_STOP_CAPTURE_ERROR
+    system_states: CAMERA_RR_READ_FRAME_ERROR
+    system_states: CAMERA_RR_LINK_ERROR
+
+    ### rear right radar
+    system_states: REAR_RIGHT_RADAR_INIT_ERROR
+    system_states: REAR_RIGHT_RADAR_CONNECTION_TIMEOUT
+    system_states: REAR_RIGHT_RADAR_PARSE_FAILURE
+    system_states: REAR_RIGHT_RADAR_NVMREAD_FAILURE
+    system_states: REAR_RIGHT_RADAR_NVMWRITE_FAILURE
+    system_states: REAR_RIGHT_RADAR_PERSISTENT_ERROR
+    system_states: REAR_RIGHT_RADAR_INTERFERENCE_DETECTED
+    system_states: REAR_RIGHT_RADAR_TEMPERATURE_ERROR
+    system_states: REAR_RIGHT_RADAR_TEMPORARY_ERROR
+    system_states: REAR_RIGHT_RADAR_VOLTAGE_ERROR
+    system_states: REAR_RIGHT_RADAR_OUTPUT_TYPE_CONFIG_ERROR
+    system_states: REAR_RIGHT_RADAR_SENSORID_CONFIG_ERROR
+    system_states: REAR_RIGHT_RADAR_FILTER_CONFIG_ERROR
+    system_states: REAR_RIGHT_RADAR_INPUT_TIME_OUT_ERROR
+  }
+}
+
+dtc_only {
+  vehicle_state_expressions {
+      state_type: DMS_CAMERA_STATUS
+      op: EQUAL
+      rvalue: 0 # Normal State
+  }
+}
